@@ -1,11 +1,8 @@
 package com.bridgelab.invoiceservice;
 
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-import junit.framework.Assert;
-
-
 
 public class CabInvoiceGeneratorTest {
 
@@ -13,13 +10,21 @@ public class CabInvoiceGeneratorTest {
 	public void whenGivenDistanceAndTimeShouldReturnFare() {
 		CabInvoiceGenerator invoiceService = new CabInvoiceGenerator();
 		Double fare = invoiceService.invoiceGenerator(10, 5);
-		Assert.assertEquals(105.0, fare);
+		assertEquals(105.0, fare, 0.0);
 	}
-	
-	@Test 
+
+	@Test
 	public void whenActualFareIsLessThan5ShouldReturnMinimumFare5Rs() {
 		CabInvoiceGenerator invoiceService = new CabInvoiceGenerator();
 		Double fare = invoiceService.invoiceGenerator(0.1, 1);
-		Assert.assertEquals(5.0, fare);
+		assertEquals(5.0, fare, 0.0);
+	}
+
+	@Test
+	public void whenGivenMultipleRidesShouldReturnAggrigateFare() {
+		CabInvoiceGenerator invoiceService = new CabInvoiceGenerator();
+		Ride[] rides = { new Ride(10, 5), new Ride(0.1, 1) };
+		double fare = invoiceService.invoiceGenerator(rides);
+		assertEquals(110.0, fare, 0.0);
 	}
 }
